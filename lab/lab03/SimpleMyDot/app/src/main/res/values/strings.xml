@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">SimpleMyDot</string>
+    <string name="random_dot_button">Random Dot</string>
 </resources>
