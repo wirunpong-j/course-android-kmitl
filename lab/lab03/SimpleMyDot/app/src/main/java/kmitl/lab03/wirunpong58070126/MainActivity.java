@@ -2,8 +2,10 @@ package kmitl.lab03.wirunpong58070126;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -24,6 +26,25 @@ public class MainActivity extends AppCompatActivity implements Dot.DotChangedLis
 
         allDot = new ArrayList<>();
         dotView = (DotView) findViewById(R.id.dotView);
+        dotView.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                if (motionEvent.getAction() == MotionEvent.ACTION_UP) {
+                    createDot(motionEvent);
+                }
+
+                return true;
+            }
+        });
+    }
+
+    public void createDot(MotionEvent motionEvent) {
+        Random rd = new Random();
+        dot = new Dot(this, (int) motionEvent.getX(), (int) motionEvent.getY(), rd.nextInt(70) + 30);
+        dot.setColor_r(rd.nextInt(256));
+        dot.setColor_g(rd.nextInt(256));
+        dot.setColor_b(rd.nextInt(256));
+        allDot.add(dot);
     }
 
     public void onRandomDot(View view) {
@@ -45,6 +66,8 @@ public class MainActivity extends AppCompatActivity implements Dot.DotChangedLis
         dotView.setAllDot(allDot);
         dotView.invalidate();
     }
+
+
 
 
 }
