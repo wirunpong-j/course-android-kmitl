@@ -12,6 +12,7 @@ public class Dot {
 
     public void setDotChangedListener(DotChangedListener dotChangedListener) {
         this.dotChangedListener = dotChangedListener;
+        this.dotChangedListener.onDotChanged(this);
     }
 
     public Dot(DotChangedListener dotChangedListener, int centerX, int centerY, int radius) {

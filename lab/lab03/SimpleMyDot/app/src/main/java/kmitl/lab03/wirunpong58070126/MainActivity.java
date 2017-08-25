@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
 
+import java.util.ArrayList;
 import java.util.Random;
 
 import kmitl.lab03.wirunpong58070126.model.Dot;
@@ -14,27 +15,33 @@ public class MainActivity extends AppCompatActivity implements Dot.DotChangedLis
 
     private Dot dot;
     private DotView dotView;
+    private ArrayList<Dot> allDot;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        dot = new Dot(0, 0, 50);
-        dot.setDotChangedListener(this);
-
+        allDot = new ArrayList<>();
         dotView = (DotView) findViewById(R.id.dotView);
     }
 
     public void onRandomDot(View view) {
         Random rd = new Random();
-        dot.setCenterX(rd.nextInt(dotView.getWidth()));
-        dot.setCenterY(rd.nextInt(dotView.getHeight()));
+        dot = new Dot(this, rd.nextInt(dotView.getWidth()), rd.nextInt(dotView.getHeight()), 50);
+        allDot.add(dot);
+    }
+
+    public void onClearDot(View view) {
+        allDot.clear();
+        dotView.invalidate();
     }
 
     @Override
     public void onDotChanged(Dot dot) {
-        dotView.setDot(dot);
+        dotView.setAllDot(allDot);
         dotView.invalidate();
     }
+
+
 }
