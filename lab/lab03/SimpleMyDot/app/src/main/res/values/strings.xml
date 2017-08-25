@@ -1,7 +1,5 @@
 <resources>
     <string name="app_name">SimpleMyDot</string>
-<<<<<<< HEAD
     <string name="random_dot_button">Random Dot</string>
-=======
->>>>>>> master
+
 </resources>
