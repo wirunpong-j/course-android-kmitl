@@ -29,6 +29,9 @@ public class MainActivity extends AppCompatActivity implements Dot.DotChangedLis
     public void onRandomDot(View view) {
         Random rd = new Random();
         dot = new Dot(this, rd.nextInt(dotView.getWidth()), rd.nextInt(dotView.getHeight()), 50);
+        dot.setColor_r(rd.nextInt(256));
+        dot.setColor_g(rd.nextInt(256));
+        dot.setColor_b(rd.nextInt(256));
         allDot.add(dot);
     }
 
