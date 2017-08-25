@@ -4,8 +4,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.MotionEvent;
 import android.view.View;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -30,7 +28,13 @@ public class MainActivity extends AppCompatActivity implements Dot.DotChangedLis
             @Override
             public boolean onTouch(View view, MotionEvent motionEvent) {
                 if (motionEvent.getAction() == MotionEvent.ACTION_UP) {
-                    createDot(motionEvent);
+                    Random rd = new Random();
+                    int radius = rd.nextInt(70) + 30;
+
+                    if (!checkDotOnboard((int) motionEvent.getX(), (int) motionEvent.getY(), radius)) {
+                        createDot((int) motionEvent.getX(), (int) motionEvent.getY(), radius);
+                    }
+
                 }
 
                 return true;
@@ -38,9 +42,22 @@ public class MainActivity extends AppCompatActivity implements Dot.DotChangedLis
         });
     }
 
-    public void createDot(MotionEvent motionEvent) {
+    public boolean checkDotOnboard(int x, int y, int r) {
+        for (Dot dot: allDot) {
+            double distance = Math.pow(Math.pow(dot.getCenterX() - x, 2) + Math.pow(dot.getCenterY() - y, 2), 0.5);
+            if (distance <= r) {
+                allDot.remove(dot);
+                dotView.invalidate();
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public void createDot(int x, int y, int r) {
+        dot = new Dot(this, x, y, r);
+
         Random rd = new Random();
-        dot = new Dot(this, (int) motionEvent.getX(), (int) motionEvent.getY(), rd.nextInt(70) + 30);
         dot.setColor_r(rd.nextInt(256));
         dot.setColor_g(rd.nextInt(256));
         dot.setColor_b(rd.nextInt(256));
