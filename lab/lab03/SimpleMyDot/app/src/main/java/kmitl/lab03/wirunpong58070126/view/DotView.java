@@ -39,7 +39,7 @@ public class DotView extends View {
         if (allDot != null) {
             for (Dot dot: allDot) {
                 if (dot != null) {
-                    paint.setColor(Color.RED);
+                    paint.setARGB(255, dot.getColor_r(), dot.getColor_g(), dot.getColor_b());
                     canvas.drawCircle(dot.getCenterX(), dot.getCenterY(), dot.getRadius(), paint);
                 }
             }
