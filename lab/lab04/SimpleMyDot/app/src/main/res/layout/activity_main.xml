@@ -56,6 +56,7 @@
 
     <ImageButton
         android:id="@+id/imageButton3"
+        android:onClick="onShareBtnPressed"
         android:layout_width="60dp"
         android:layout_height="60dp"
         android:scaleType="fitCenter"
