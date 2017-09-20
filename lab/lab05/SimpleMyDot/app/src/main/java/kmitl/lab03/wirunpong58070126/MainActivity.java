@@ -109,13 +109,20 @@ public class MainActivity extends AppCompatActivity implements Dots.onDotsChange
     public void onDotViewLongPressed(int x, int y) {
         int position = dots.findDot(x, y);
         if (position != -1) {
+
             editing_dot = dots.getAllDot().get(position);
             EditFragment editFragment = new EditFragment();
+
             editFragment.setDotView_width(dotView.getWidth());
             editFragment.setDotView_height(dotView.getHeight());
+
             editFragment.setDot_radius(editing_dot.getRadius());
             editFragment.setDot_x(editing_dot.getCenterX());
             editFragment.setDot_y(editing_dot.getCenterY());
+
+            editFragment.setDot_color_r(editing_dot.getColor_r());
+            editFragment.setDot_color_g(editing_dot.getColor_g());
+            editFragment.setDot_color_b(editing_dot.getColor_b());
 
             editFragment.setConfirmDialog(this);
             editFragment.show(getFragmentManager(), "EditFragment");
@@ -124,10 +131,13 @@ public class MainActivity extends AppCompatActivity implements Dots.onDotsChange
     }
 
     @Override
-    public void onConfirmChanged(int x, int y, int radius) {
+    public void onConfirmChanged(int x, int y, int radius, int color_r, int color_g, int color_b) {
         editing_dot.setRadius(radius);
         editing_dot.setCenterX(x);
         editing_dot.setCenterY(y);
+        editing_dot.setColor_r(color_r);
+        editing_dot.setColor_g(color_g);
+        editing_dot.setColor_b(color_b);
 
         dotView.invalidate();
     }

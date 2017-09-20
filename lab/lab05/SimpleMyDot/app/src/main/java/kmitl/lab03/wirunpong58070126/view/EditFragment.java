@@ -4,11 +4,18 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
 import android.content.DialogInterface;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.Button;
 import android.widget.SeekBar;
 import android.widget.TextView;
+
+import com.flask.colorpicker.ColorPickerView;
+import com.flask.colorpicker.OnColorSelectedListener;
+import com.flask.colorpicker.builder.ColorPickerClickListener;
+import com.flask.colorpicker.builder.ColorPickerDialogBuilder;
 
 import kmitl.lab03.wirunpong58070126.R;
 
@@ -16,7 +23,7 @@ import kmitl.lab03.wirunpong58070126.R;
  * Created by BellKunG on 9/20/2017 AD.
  */
 
-public class EditFragment extends DialogFragment implements SeekBar.OnSeekBarChangeListener {
+public class EditFragment extends DialogFragment implements SeekBar.OnSeekBarChangeListener, View.OnClickListener {
 
     private int dotView_height;
     private int dotView_width;
@@ -24,6 +31,10 @@ public class EditFragment extends DialogFragment implements SeekBar.OnSeekBarCha
     private int dot_x;
     private int dot_y;
     private int dot_radius;
+
+    private int dot_color_r;
+    private int dot_color_g;
+    private int dot_color_b;
 
     private SeekBar editDotSizeSeek;
     private SeekBar editPosXSeek;
@@ -33,10 +44,12 @@ public class EditFragment extends DialogFragment implements SeekBar.OnSeekBarCha
     private TextView editPosXTextView;
     private TextView editPosYTextView;
 
+    private Button changeColorBtn;
+
     private ConfirmDialog confirmDialog;
 
     public interface ConfirmDialog {
-        void onConfirmChanged(int x, int y, int radius);
+        void onConfirmChanged(int x, int y, int radius, int color_r, int color_g, int color_b);
     }
 
     @Override
@@ -67,6 +80,9 @@ public class EditFragment extends DialogFragment implements SeekBar.OnSeekBarCha
         editPosXTextView.setText(String.valueOf(editPosXSeek.getProgress()));
         editPosYTextView.setText(String.valueOf(editPosYSeek.getProgress()));
 
+        changeColorBtn = view.findViewById(R.id.changeColorBtn);
+        changeColorBtn.setOnClickListener(this);
+
 
         return new AlertDialog.Builder(getActivity())
                 .setTitle("Edit Dot")
@@ -74,7 +90,8 @@ public class EditFragment extends DialogFragment implements SeekBar.OnSeekBarCha
                 .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        confirmDialog.onConfirmChanged(editPosXSeek.getProgress(), editPosYSeek.getProgress(), editDotSizeSeek.getProgress());
+                        confirmDialog.onConfirmChanged(editPosXSeek.getProgress(), editPosYSeek.getProgress(), editDotSizeSeek.getProgress(),
+                                dot_color_r, dot_color_g, dot_color_b);
                     }
                 })
                 .setNegativeButton("Cancle", new DialogInterface.OnClickListener() {
@@ -102,6 +119,40 @@ public class EditFragment extends DialogFragment implements SeekBar.OnSeekBarCha
     }
 
     @Override
+    public void onClick(View view) {
+        ColorPickerDialogBuilder
+                .with(view.getContext())
+                .setTitle("Choose Color")
+                .initialColor(Color.rgb(dot_color_r, dot_color_g, dot_color_b))
+                .wheelType(ColorPickerView.WHEEL_TYPE.FLOWER)
+                .density(12)
+                .setOnColorSelectedListener(new OnColorSelectedListener() {
+                    @Override
+                    public void onColorSelected(int selectedColor) {
+
+                    }
+                })
+                .setPositiveButton("ok", new ColorPickerClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int selectedColor, Integer[] allColors) {
+                        dot_color_r = Color.red(selectedColor);
+                        dot_color_g = Color.green(selectedColor);
+                        dot_color_b = Color.blue(selectedColor);
+
+                        confirmDialog.onConfirmChanged(editPosXSeek.getProgress(), editPosYSeek.getProgress(), editDotSizeSeek.getProgress(),
+                                dot_color_r, dot_color_g, dot_color_b);
+                    }
+                })
+                .setNegativeButton("cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                    }
+                })
+                .build()
+                .show();
+    }
+
+    @Override
     public void onStartTrackingTouch(SeekBar seekBar) {
 
     }
@@ -111,40 +162,21 @@ public class EditFragment extends DialogFragment implements SeekBar.OnSeekBarCha
 
     }
 
-    public int getDotView_height() {
-        return dotView_height;
-    }
-
     public void setDotView_height(int dotView_height) {
         this.dotView_height = dotView_height;
-    }
-
-    public int getDotView_width() {
-        return dotView_width;
     }
 
     public void setDotView_width(int dotView_width) {
         this.dotView_width = dotView_width;
     }
 
-    public int getDot_x() {
-        return dot_x;
-    }
-
     public void setDot_x(int dot_x) {
         this.dot_x = dot_x;
     }
 
-    public int getDot_y() {
-        return dot_y;
-    }
 
     public void setDot_y(int dot_y) {
         this.dot_y = dot_y;
-    }
-
-    public int getDot_radius() {
-        return dot_radius;
     }
 
     public void setDot_radius(int dot_radius) {
@@ -153,5 +185,18 @@ public class EditFragment extends DialogFragment implements SeekBar.OnSeekBarCha
 
     public void setConfirmDialog(ConfirmDialog confirmDialog) {
         this.confirmDialog = confirmDialog;
+    }
+
+    public void setDot_color_r(int dot_color_r) {
+        this.dot_color_r = dot_color_r;
+    }
+
+    public void setDot_color_g(int dot_color_g) {
+        this.dot_color_g = dot_color_g;
+    }
+
+
+    public void setDot_color_b(int dot_color_b) {
+        this.dot_color_b = dot_color_b;
     }
 }
