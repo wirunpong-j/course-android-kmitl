@@ -124,7 +124,7 @@ public class EditFragment extends DialogFragment implements SeekBar.OnSeekBarCha
                 .with(view.getContext())
                 .setTitle("Choose Color")
                 .initialColor(Color.rgb(dot_color_r, dot_color_g, dot_color_b))
-                .wheelType(ColorPickerView.WHEEL_TYPE.FLOWER)
+                .wheelType(ColorPickerView.WHEEL_TYPE.CIRCLE)
                 .density(12)
                 .setOnColorSelectedListener(new OnColorSelectedListener() {
                     @Override
