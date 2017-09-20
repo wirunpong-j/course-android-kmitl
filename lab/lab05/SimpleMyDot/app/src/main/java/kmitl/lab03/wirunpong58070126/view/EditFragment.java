@@ -11,7 +11,6 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 
 import kmitl.lab03.wirunpong58070126.R;
-import kmitl.lab03.wirunpong58070126.model.Dot;
 
 /**
  * Created by BellKunG on 9/20/2017 AD.
@@ -19,9 +18,12 @@ import kmitl.lab03.wirunpong58070126.model.Dot;
 
 public class EditFragment extends DialogFragment implements SeekBar.OnSeekBarChangeListener {
 
-    private Dot dot;
     private int dotView_height;
     private int dotView_width;
+
+    private int dot_x;
+    private int dot_y;
+    private int dot_radius;
 
     private SeekBar editDotSizeSeek;
     private SeekBar editPosXSeek;
@@ -30,6 +32,12 @@ public class EditFragment extends DialogFragment implements SeekBar.OnSeekBarCha
     private TextView editDotSizeTextView;
     private TextView editPosXTextView;
     private TextView editPosYTextView;
+
+    private ConfirmDialog confirmDialog;
+
+    public interface ConfirmDialog {
+        void onConfirmChanged(int x, int y, int radius);
+    }
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
@@ -43,9 +51,13 @@ public class EditFragment extends DialogFragment implements SeekBar.OnSeekBarCha
         editDotSizeSeek.setMax(100);
         editPosXSeek.setMax(dotView_width);
         editPosYSeek.setMax(dotView_height);
-        editDotSizeSeek.setProgress(dot.getRadius());
-        editPosXSeek.setProgress(dot.getCenterX());
-        editPosYSeek.setProgress(dot.getCenterY());
+        editDotSizeSeek.setProgress(dot_radius);
+        editPosXSeek.setProgress(dot_x);
+        editPosYSeek.setProgress(dot_y);
+
+        editDotSizeSeek.setOnSeekBarChangeListener(this);
+        editPosXSeek.setOnSeekBarChangeListener(this);
+        editPosYSeek.setOnSeekBarChangeListener(this);
 
         editDotSizeTextView = view.findViewById(R.id.dotSizeTextView);
         editPosXTextView = view.findViewById(R.id.editPosXTextView);
@@ -62,7 +74,7 @@ public class EditFragment extends DialogFragment implements SeekBar.OnSeekBarCha
                 .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-
+                        confirmDialog.onConfirmChanged(editPosXSeek.getProgress(), editPosYSeek.getProgress(), editDotSizeSeek.getProgress());
                     }
                 })
                 .setNegativeButton("Cancle", new DialogInterface.OnClickListener() {
@@ -73,14 +85,18 @@ public class EditFragment extends DialogFragment implements SeekBar.OnSeekBarCha
                 }).create();
     }
 
+
     @Override
     public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
         switch (seekBar.getId()) {
             case R.id.editDotSizeSeek:
+                editDotSizeTextView.setText(String.valueOf(seekBar.getProgress()));
                 break;
             case R.id.editPosXSeek:
+                editPosXTextView.setText(String.valueOf(seekBar.getProgress()));
                 break;
             case R.id.editPosYSeek:
+                editPosYTextView.setText(String.valueOf(seekBar.getProgress()));
                 break;
         }
     }
@@ -93,14 +109,6 @@ public class EditFragment extends DialogFragment implements SeekBar.OnSeekBarCha
     @Override
     public void onStopTrackingTouch(SeekBar seekBar) {
 
-    }
-
-    public Dot getDot() {
-        return dot;
-    }
-
-    public void setDot(Dot dot) {
-        this.dot = dot;
     }
 
     public int getDotView_height() {
@@ -117,5 +125,33 @@ public class EditFragment extends DialogFragment implements SeekBar.OnSeekBarCha
 
     public void setDotView_width(int dotView_width) {
         this.dotView_width = dotView_width;
+    }
+
+    public int getDot_x() {
+        return dot_x;
+    }
+
+    public void setDot_x(int dot_x) {
+        this.dot_x = dot_x;
+    }
+
+    public int getDot_y() {
+        return dot_y;
+    }
+
+    public void setDot_y(int dot_y) {
+        this.dot_y = dot_y;
+    }
+
+    public int getDot_radius() {
+        return dot_radius;
+    }
+
+    public void setDot_radius(int dot_radius) {
+        this.dot_radius = dot_radius;
+    }
+
+    public void setConfirmDialog(ConfirmDialog confirmDialog) {
+        this.confirmDialog = confirmDialog;
     }
 }
