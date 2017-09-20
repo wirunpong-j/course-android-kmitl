@@ -28,6 +28,7 @@ import java.util.Random;
 import kmitl.lab03.wirunpong58070126.model.Dot;
 import kmitl.lab03.wirunpong58070126.model.Dots;
 import kmitl.lab03.wirunpong58070126.view.DotView;
+import kmitl.lab03.wirunpong58070126.view.EditFragment;
 
 public class MainActivity extends AppCompatActivity implements Dots.onDotsChangeListener, DotView.OnDotViewPressListener, ContainerFragment.OnFragmentInteractionListener {
 
@@ -105,7 +106,12 @@ public class MainActivity extends AppCompatActivity implements Dots.onDotsChange
 
     @Override
     public void onDotViewLongPressed(int x, int y) {
-        Toast.makeText(this, "Bell KunG", Toast.LENGTH_SHORT).show();
+        int position = dots.findDot(x, y);
+        if (position != -1) {
+            EditFragment editFragment = new EditFragment();
+            editFragment.show(getFragmentManager(), "EditFragment");
+        }
+
     }
 
     public void onRandomDot(View view) {

@@ -22,8 +22,6 @@ public class DotView extends View {
     private Dots dots;
     private OnDotViewPressListener onDotViewPressListener;
 
-
-
     public DotView(Context context) {
         super(context);
         paint = new Paint();
