@@ -138,9 +138,6 @@ public class EditFragment extends DialogFragment implements SeekBar.OnSeekBarCha
                         dot_color_r = Color.red(selectedColor);
                         dot_color_g = Color.green(selectedColor);
                         dot_color_b = Color.blue(selectedColor);
-
-                        confirmDialog.onConfirmChanged(editPosXSeek.getProgress(), editPosYSeek.getProgress(), editDotSizeSeek.getProgress(),
-                                dot_color_r, dot_color_g, dot_color_b);
                     }
                 })
                 .setNegativeButton("cancel", new DialogInterface.OnClickListener() {
