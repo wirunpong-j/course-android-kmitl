@@ -109,7 +109,11 @@ public class MainActivity extends AppCompatActivity implements Dots.onDotsChange
         int position = dots.findDot(x, y);
         if (position != -1) {
             EditFragment editFragment = new EditFragment();
+            editFragment.setDotView_width(dotView.getWidth());
+            editFragment.setDotView_height(dotView.getHeight());
+            editFragment.setDot(dots.getAllDot().get(position));
             editFragment.show(getFragmentManager(), "EditFragment");
+
         }
 
     }
