@@ -30,11 +30,12 @@ import kmitl.lab03.wirunpong58070126.model.Dots;
 import kmitl.lab03.wirunpong58070126.view.DotView;
 import kmitl.lab03.wirunpong58070126.view.EditFragment;
 
-public class MainActivity extends AppCompatActivity implements Dots.onDotsChangeListener, DotView.OnDotViewPressListener, ContainerFragment.OnFragmentInteractionListener {
+public class MainActivity extends AppCompatActivity implements Dots.onDotsChangeListener, DotView.OnDotViewPressListener, ContainerFragment.OnFragmentInteractionListener, EditFragment.ConfirmDialog {
 
     private DotView dotView;
     private Dots dots;
     private Random rd;
+    private Dot editing_dot;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -108,10 +109,27 @@ public class MainActivity extends AppCompatActivity implements Dots.onDotsChange
     public void onDotViewLongPressed(int x, int y) {
         int position = dots.findDot(x, y);
         if (position != -1) {
+            editing_dot = dots.getAllDot().get(position);
             EditFragment editFragment = new EditFragment();
+            editFragment.setDotView_width(dotView.getWidth());
+            editFragment.setDotView_height(dotView.getHeight());
+            editFragment.setDot_radius(editing_dot.getRadius());
+            editFragment.setDot_x(editing_dot.getCenterX());
+            editFragment.setDot_y(editing_dot.getCenterY());
+
+            editFragment.setConfirmDialog(this);
             editFragment.show(getFragmentManager(), "EditFragment");
         }
 
+    }
+
+    @Override
+    public void onConfirmChanged(int x, int y, int radius) {
+        editing_dot.setRadius(radius);
+        editing_dot.setCenterX(x);
+        editing_dot.setCenterY(y);
+
+        dotView.invalidate();
     }
 
     public void onRandomDot(View view) {
@@ -159,4 +177,6 @@ public class MainActivity extends AppCompatActivity implements Dots.onDotsChange
     public void onFragmentInteraction(Uri uri) {
 
     }
+
+
 }
