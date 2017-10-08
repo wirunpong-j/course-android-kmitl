@@ -5,13 +5,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:padding="8dp">
+    android:padding="0dp">
 
     <fragment
         android:id="@+id/fragment"
         android:name="lab.bellkung.lazyinstagram.fragment.UsersSpinnerFragment"
         android:layout_width="match_parent"
-        android:layout_height="40dp"
+        android:layout_height="wrap_content"
         tools:layout="@layout/fragment_users_spinner" />
 
     <LinearLayout
@@ -21,7 +21,7 @@
         android:orientation="horizontal">
 
         <com.mikhaellopez.circularimageview.CircularImageView
-            android:layout_marginLeft="10dp"
+            android:layout_marginLeft="15dp"
             android:id="@+id/imageProfile"
             android:layout_width="100dp"
             android:layout_height="100dp"
@@ -51,7 +51,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:layout_marginLeft="10dp"
+            android:layout_marginLeft="15dp"
             android:singleLine="true"
             android:text="Bio : bla bla bla"
             android:textColor="#000000"
