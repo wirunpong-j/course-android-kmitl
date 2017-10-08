@@ -1,5 +1,6 @@
 package lab.bellkung.lazyinstagram.controller;
 
+import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
@@ -9,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.mikhaellopez.circularimageview.CircularImageView;
 
 import lab.bellkung.lazyinstagram.R;
 import lab.bellkung.lazyinstagram.adapter.PostAdapter;
@@ -75,7 +77,9 @@ public class MainActivity extends AppCompatActivity {
         TextView textBio = findViewById(R.id.textBio);
         textBio.setText(userProfile.getBio());
 
-        ImageView imageProfile = findViewById(R.id.imageProfile);
+        CircularImageView imageProfile = findViewById(R.id.imageProfile);
+        imageProfile.setBorderColor(Color.DKGRAY);
+        imageProfile.setBorderWidth(2);
         Glide.with(this).load(userProfile.getUrlProfile()).into(imageProfile);
 
         RecyclerView list = findViewById(R.id.list);
