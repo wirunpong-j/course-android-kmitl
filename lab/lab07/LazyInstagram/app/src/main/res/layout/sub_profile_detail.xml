@@ -57,7 +57,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="post"
+            android:text="posts"
             android:textAlignment="center"
             android:textSize="13sp" />
 
@@ -66,7 +66,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="follower"
+            android:text="followers"
             android:textAlignment="center"
             android:textSize="13sp" />
 
