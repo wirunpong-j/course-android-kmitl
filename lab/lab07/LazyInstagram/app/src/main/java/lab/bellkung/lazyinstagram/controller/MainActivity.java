@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.Window;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -32,7 +31,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         // get profile form api
-        getUserProfile("android");
+        getUserProfile("cartoon");
     }
 
     private void getUserProfile(String name){
@@ -62,8 +61,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void display(UserProfile userProfile){
-        TextView textUser = findViewById(R.id.textUser);
-        textUser.setText("@"+userProfile.getUser());
 
         TextView textPost = findViewById(R.id.textPost);
         textPost.setText(String.valueOf(userProfile.getPost()));
