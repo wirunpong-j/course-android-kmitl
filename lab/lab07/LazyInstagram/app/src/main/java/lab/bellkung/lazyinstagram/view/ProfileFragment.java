@@ -5,12 +5,14 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -23,7 +25,7 @@ import lab.bellkung.lazyinstagram.model.UserProfile;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class ProfileFragment extends Fragment {
+public class ProfileFragment extends Fragment implements View.OnClickListener {
 
     private UserProfile userProfile;
 
@@ -81,8 +83,26 @@ public class ProfileFragment extends Fragment {
         imageProfile.setBorderWidth(2);
         Glide.with(this).load(this.userProfile.getUrlProfile()).into(imageProfile);
 
+        Button followBtn = view.findViewById(R.id.followBtn);
+        followBtn.setOnClickListener(this);
+
     }
 
 
+    @Override
+    public void onClick(View view) {
+        Button followBtn = view.findViewById(R.id.followBtn);
+        if (this.userProfile.isFollow()) {
+            followBtn.setText("Follow");
+            this.userProfile.setFollow(false);
+        } else {
+            followBtn.setText("Followed");
+            this.userProfile.setFollow(true);
+        }
 
+        getFragmentManager().beginTransaction()
+                .replace(R.id.userFragment, ProfileFragment.newInstance(this.userProfile))
+                .addToBackStack(null)
+                .commit();
+    }
 }

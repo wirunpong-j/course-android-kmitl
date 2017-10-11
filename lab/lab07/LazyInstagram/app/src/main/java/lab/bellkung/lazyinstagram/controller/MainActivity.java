@@ -3,6 +3,7 @@ package lab.bellkung.lazyinstagram.controller;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.AdapterView;
@@ -49,7 +50,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<UserProfile> call, Response<UserProfile> response) {
                 if (response.isSuccessful()){
-                    initialFragment(response.body());
+                    updateFragment(response.body());
                 }
             }
 
@@ -58,7 +59,7 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    private void initialFragment(UserProfile userProfile) {
+    private void updateFragment(UserProfile userProfile) {
         FragmentManager fragmentManager = getSupportFragmentManager();
         fragmentManager.beginTransaction()
                 .replace(R.id.userFragment, ProfileFragment.newInstance(userProfile))
