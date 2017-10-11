@@ -1,20 +1,19 @@
 package lab.bellkung.lazyinstagram.controller;
 
-import android.graphics.Color;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import android.view.View;
 import android.view.Window;
-import android.widget.TextView;
-
-import com.bumptech.glide.Glide;
-import com.mikhaellopez.circularimageview.CircularImageView;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
 
 import lab.bellkung.lazyinstagram.R;
-import lab.bellkung.lazyinstagram.adapter.PostAdapter;
 import lab.bellkung.lazyinstagram.api.LazyInstagramAPI;
 import lab.bellkung.lazyinstagram.model.UserProfile;
+import lab.bellkung.lazyinstagram.view.GridFragment;
+import lab.bellkung.lazyinstagram.view.ProfileFragment;
 import okhttp3.OkHttpClient;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -30,8 +29,7 @@ public class MainActivity extends AppCompatActivity {
         this.requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_main);
 
-        // get profile form api
-        getUserProfile("cartoon");
+        initialUserSpinner();
     }
 
     private void getUserProfile(String name){
@@ -51,7 +49,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<UserProfile> call, Response<UserProfile> response) {
                 if (response.isSuccessful()){
-                    display(response.body());
+                    initialFragment(response.body());
                 }
             }
 
@@ -60,31 +58,40 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    private void display(UserProfile userProfile){
+    private void initialFragment(UserProfile userProfile) {
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        fragmentManager.beginTransaction()
+                .replace(R.id.userFragment, ProfileFragment.newInstance(userProfile))
+                .addToBackStack(null)
+                .commit();
 
-        TextView textPost = findViewById(R.id.textPost);
-        textPost.setText(String.valueOf(userProfile.getPost()));
+        fragmentManager.beginTransaction()
+                .replace(R.id.imageFragment, GridFragment.newInstance(userProfile))
+                .addToBackStack(null)
+                .commit();
+    }
 
-        TextView textFollower = findViewById(R.id.textFollower);
-        textFollower.setText(String.valueOf(userProfile.getFollower()));
+    private void initialUserSpinner() {
+        // User Spinner
+        Spinner spinner = findViewById(R.id.users_spinner);
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                String username = (String) adapterView.getItemAtPosition(i);
+                getUserProfile(username);
+            }
 
-        TextView textFollowing = findViewById(R.id.textFollwing);
-        textFollowing.setText(String.valueOf(userProfile.getFollowing()));
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
 
-        TextView textBio = findViewById(R.id.textBio);
-        textBio.setText(userProfile.getBio());
+            }
+        });
 
-        CircularImageView imageProfile = findViewById(R.id.imageProfile);
-        imageProfile.setBorderColor(Color.DKGRAY);
-        imageProfile.setBorderWidth(2);
-        Glide.with(this).load(userProfile.getUrlProfile()).into(imageProfile);
-
-        RecyclerView list = findViewById(R.id.list);
-        list.setLayoutManager(new GridLayoutManager(this, 3));
-        PostAdapter adapter = new PostAdapter(this);
-        adapter.setData(userProfile.getPosts());
-        list.setAdapter(adapter);
-
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
+                R.array.user_array,
+                android.R.layout.simple_dropdown_item_1line);
+        adapter.setDropDownViewResource(android.R.layout.simple_dropdown_item_1line);
+        spinner.setAdapter(adapter);
     }
 
 }
