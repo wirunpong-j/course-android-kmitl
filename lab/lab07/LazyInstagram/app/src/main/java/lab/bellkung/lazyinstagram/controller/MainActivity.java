@@ -11,6 +11,8 @@ import android.widget.ArrayAdapter;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
 
+import com.wang.avi.AVLoadingIndicatorView;
+
 import lab.bellkung.lazyinstagram.R;
 import lab.bellkung.lazyinstagram.api.LazyInstagramAPI;
 import lab.bellkung.lazyinstagram.model.UserProfile;
@@ -26,15 +28,19 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class MainActivity extends AppCompatActivity {
 
     private UserProfile userProfile;
+    private AVLoadingIndicatorView avi;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         this.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        setContentView(R.layout.circle_progress_view);
+        setContentView(R.layout.activity_main);
 
 
-//        initialUserSpinner();
+        this.avi = findViewById(R.id.avi);
+        this.avi.hide();
+
+        initialUserSpinner();
     }
 
     private void getUserProfile(String name){
@@ -43,6 +49,7 @@ public class MainActivity extends AppCompatActivity {
         LazyInstagramAPI lazyInstagramAPI = retrofit.create(LazyInstagramAPI.class);
 
         // start activity indicator
+        this.avi.show();
         Call<UserProfile> call = lazyInstagramAPI.getProfile(name);
         call.enqueue(new Callback<UserProfile>() {
             @Override
@@ -51,6 +58,7 @@ public class MainActivity extends AppCompatActivity {
                 if (response.isSuccessful()){
                     userProfile = response.body();
                     updateFragment(userProfile);
+                    avi.hide();
                 }
             }
 
