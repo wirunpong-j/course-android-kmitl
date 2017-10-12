@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.ProgressBar;
 import android.widget.Spinner;
 
 import lab.bellkung.lazyinstagram.R;
@@ -30,9 +31,10 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         this.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.circle_progress_view);
 
-        initialUserSpinner();
+
+//        initialUserSpinner();
     }
 
     private void getUserProfile(String name){
@@ -40,10 +42,12 @@ public class MainActivity extends AppCompatActivity {
 
         LazyInstagramAPI lazyInstagramAPI = retrofit.create(LazyInstagramAPI.class);
 
+        // start activity indicator
         Call<UserProfile> call = lazyInstagramAPI.getProfile(name);
         call.enqueue(new Callback<UserProfile>() {
             @Override
             public void onResponse(Call<UserProfile> call, Response<UserProfile> response) {
+                //end activity indicator
                 if (response.isSuccessful()){
                     userProfile = response.body();
                     updateFragment(userProfile);
