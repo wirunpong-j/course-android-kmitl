@@ -24,6 +24,8 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class MainActivity extends AppCompatActivity {
 
+    private UserProfile userProfile;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -34,14 +36,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void getUserProfile(String name){
-        OkHttpClient client = new OkHttpClient.Builder().build();
-
-        Retrofit retrofit = new Retrofit
-                .Builder()
-                .client(client)
-                .baseUrl(LazyInstagramAPI.BASE)
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
+        Retrofit retrofit = getClient();
 
         LazyInstagramAPI lazyInstagramAPI = retrofit.create(LazyInstagramAPI.class);
 
@@ -50,13 +45,44 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<UserProfile> call, Response<UserProfile> response) {
                 if (response.isSuccessful()){
-                    updateFragment(response.body());
+                    userProfile = response.body();
+                    updateFragment(userProfile);
                 }
             }
 
             @Override
             public void onFailure(Call<UserProfile> call, Throwable t) {}
         });
+    }
+
+    private void sendPost(String name, boolean isFollow) {
+        Retrofit retrofit = getClient();
+
+        LazyInstagramAPI lazyInstagramAPI = retrofit.create(LazyInstagramAPI.class);
+        Call<UserProfile> call = lazyInstagramAPI.postProfile(name, isFollow);
+        call.enqueue(new Callback<UserProfile>() {
+            @Override
+            public void onResponse(Call<UserProfile> call, Response<UserProfile> response) {
+                if (response.isSuccessful()){
+                    Log.v("Status : ", response.body().getMessage());
+                    updateFragment(userProfile);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<UserProfile> call, Throwable t) {}
+        });
+
+    }
+
+    private Retrofit getClient() {
+        OkHttpClient client = new OkHttpClient.Builder().build();
+        return new Retrofit
+                .Builder()
+                .client(client)
+                .baseUrl(LazyInstagramAPI.BASE)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
     }
 
     private void updateFragment(UserProfile userProfile) {
@@ -95,4 +121,8 @@ public class MainActivity extends AppCompatActivity {
         spinner.setAdapter(adapter);
     }
 
+    public void onFollowBtnPressed(View view) {
+        this.userProfile.setFollow(!this.userProfile.isFollow());
+        sendPost(this.userProfile.getUser(), this.userProfile.isFollow());
+    }
 }

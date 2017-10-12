@@ -9,7 +9,7 @@ import java.util.List;
  * Created by BellKunG on 7/10/2017 AD.
  */
 
-public class UserProfile implements Parcelable {
+public class UserProfile implements Parcelable{
 
     private String bio;
     private int follower;
@@ -20,6 +20,7 @@ public class UserProfile implements Parcelable {
 
     private String user;
     private String urlProfile;
+    private String message;
 
     protected UserProfile(Parcel in) {
         bio = in.readString();
@@ -29,22 +30,7 @@ public class UserProfile implements Parcelable {
         post = in.readInt();
         user = in.readString();
         urlProfile = in.readString();
-    }
-
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(bio);
-        dest.writeInt(follower);
-        dest.writeInt(following);
-        dest.writeByte((byte) (isFollow ? 1 : 0));
-        dest.writeInt(post);
-        dest.writeString(user);
-        dest.writeString(urlProfile);
-    }
-
-    @Override
-    public int describeContents() {
-        return 0;
+        message = in.readString();
     }
 
     public static final Creator<UserProfile> CREATOR = new Creator<UserProfile>() {
@@ -122,4 +108,30 @@ public class UserProfile implements Parcelable {
     public void setPosts(List<PostModel> posts) {
         this.posts = posts;
     }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeString(bio);
+        parcel.writeInt(follower);
+        parcel.writeInt(following);
+        parcel.writeByte((byte) (isFollow ? 1 : 0));
+        parcel.writeInt(post);
+        parcel.writeString(user);
+        parcel.writeString(urlProfile);
+        parcel.writeString(message);
+    }
+
+    public String getMessage() {
+        return message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
+    }
+
 }

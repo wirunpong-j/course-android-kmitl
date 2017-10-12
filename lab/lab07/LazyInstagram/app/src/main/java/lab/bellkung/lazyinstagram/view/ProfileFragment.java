@@ -25,7 +25,7 @@ import lab.bellkung.lazyinstagram.model.UserProfile;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class ProfileFragment extends Fragment implements View.OnClickListener {
+public class ProfileFragment extends Fragment {
 
     private UserProfile userProfile;
 
@@ -84,25 +84,12 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
         Glide.with(this).load(this.userProfile.getUrlProfile()).into(imageProfile);
 
         Button followBtn = view.findViewById(R.id.followBtn);
-        followBtn.setOnClickListener(this);
-
-    }
-
-
-    @Override
-    public void onClick(View view) {
-        Button followBtn = view.findViewById(R.id.followBtn);
         if (this.userProfile.isFollow()) {
-            followBtn.setText("Follow");
-            this.userProfile.setFollow(false);
-        } else {
             followBtn.setText("Followed");
-            this.userProfile.setFollow(true);
+        } else {
+            followBtn.setText("Follow");
         }
 
-        getFragmentManager().beginTransaction()
-                .replace(R.id.userFragment, ProfileFragment.newInstance(this.userProfile))
-                .addToBackStack(null)
-                .commit();
     }
+
 }
