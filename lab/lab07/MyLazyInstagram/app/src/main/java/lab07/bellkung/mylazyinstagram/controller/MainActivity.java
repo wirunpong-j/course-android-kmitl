@@ -1,5 +1,6 @@
 package lab07.bellkung.mylazyinstagram.controller;
 
+import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -28,7 +29,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class MainActivity extends AppCompatActivity {
 
     private UserProfile userProfile;
-    private AVLoadingIndicatorView avi;
+    private ConstraintLayout loadingView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,19 +37,19 @@ public class MainActivity extends AppCompatActivity {
         this.requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_main);
 
-        this.avi = findViewById(R.id.avi);
-        this.avi.hide();
+        this.loadingView = findViewById(R.id.loadingView);
 
         initialUserSpinner();
     }
 
     private void getUserProfile(String name){
+        this.loadingView.setVisibility(View.VISIBLE);
+
         Retrofit retrofit = getClient();
 
         LazyInstagramAPI lazyInstagramAPI = retrofit.create(LazyInstagramAPI.class);
 
         // start activity indicator
-        this.avi.show();
         Call<UserProfile> call = lazyInstagramAPI.getProfile(name);
         call.enqueue(new Callback<UserProfile>() {
             @Override
@@ -57,7 +58,7 @@ public class MainActivity extends AppCompatActivity {
                 if (response.isSuccessful()){
                     userProfile = response.body();
                     updateFragment(userProfile, 3);
-                    avi.hide();
+                    loadingView.setVisibility(View.INVISIBLE);
                 }
             }
 
