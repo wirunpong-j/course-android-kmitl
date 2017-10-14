@@ -28,7 +28,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            tools:layout="@layout/fragment_grid" />
+            tools:layout="@layout/fragment_image_view" />
 
     </LinearLayout>
 
@@ -113,13 +113,13 @@
         app:layout_constraintTop_toBottomOf="@+id/linearLayout7">
 
         <ImageButton
-            android:onClick="onViewImagePressed"
             android:id="@+id/gridBtn"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:background="#00FFFFFF"
-            app:srcCompat="@drawable/grid" />
+            android:onClick="onViewImagePressed"
+            app:srcCompat="@drawable/grid_pressed" />
 
         <ImageButton
             android:onClick="onViewImagePressed"

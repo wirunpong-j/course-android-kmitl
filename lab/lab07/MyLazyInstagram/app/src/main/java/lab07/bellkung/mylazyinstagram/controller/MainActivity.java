@@ -16,7 +16,7 @@ import com.wang.avi.AVLoadingIndicatorView;
 import lab07.bellkung.mylazyinstagram.R;
 import lab07.bellkung.mylazyinstagram.api.LazyInstagramAPI;
 import lab07.bellkung.mylazyinstagram.model.UserProfile;
-import lab07.bellkung.mylazyinstagram.view.GridFragment;
+import lab07.bellkung.mylazyinstagram.view.ImageViewFragment;
 import lab07.bellkung.mylazyinstagram.view.ProfileFragment;
 import okhttp3.OkHttpClient;
 import retrofit2.Call;
@@ -35,7 +35,6 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         this.requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_main);
-
 
         this.avi = findViewById(R.id.avi);
         this.avi.hide();
@@ -57,7 +56,7 @@ public class MainActivity extends AppCompatActivity {
                 //end activity indicator
                 if (response.isSuccessful()){
                     userProfile = response.body();
-                    updateFragment(userProfile);
+                    updateFragment(userProfile, 3);
                     avi.hide();
                 }
             }
@@ -77,7 +76,7 @@ public class MainActivity extends AppCompatActivity {
             public void onResponse(Call<UserProfile> call, Response<UserProfile> response) {
                 if (response.isSuccessful()){
                     Log.v("Status : ", response.body().getMessage());
-                    updateFragment(userProfile);
+                    updateFragment(userProfile, 3);
                 }
             }
 
@@ -97,7 +96,7 @@ public class MainActivity extends AppCompatActivity {
                 .build();
     }
 
-    private void updateFragment(UserProfile userProfile) {
+    private void updateFragment(UserProfile userProfile, int row) {
         FragmentManager fragmentManager = getSupportFragmentManager();
         fragmentManager.beginTransaction()
                 .replace(R.id.userFragment, ProfileFragment.newInstance(userProfile))
@@ -105,7 +104,7 @@ public class MainActivity extends AppCompatActivity {
                 .commit();
 
         fragmentManager.beginTransaction()
-                .replace(R.id.imageFragment, GridFragment.newInstance(userProfile))
+                .replace(R.id.imageFragment, ImageViewFragment.newInstance(userProfile, row))
                 .addToBackStack(null)
                 .commit();
     }
@@ -118,6 +117,11 @@ public class MainActivity extends AppCompatActivity {
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 String username = (String) adapterView.getItemAtPosition(i);
                 getUserProfile(username);
+
+                ImageButton gridBtn = findViewById(R.id.gridBtn);
+                ImageButton listBtn = findViewById(R.id.listBtn);
+                gridBtn.setImageResource(R.drawable.grid_pressed);
+                listBtn.setImageResource(R.drawable.list);
             }
 
             @Override
@@ -145,11 +149,13 @@ public class MainActivity extends AppCompatActivity {
             case R.id.gridBtn:
                 gridBtn.setImageResource(R.drawable.grid_pressed);
                 listBtn.setImageResource(R.drawable.list);
+                updateFragment(this.userProfile, 3);
                 break;
 
             case R.id.listBtn:
                 gridBtn.setImageResource(R.drawable.grid);
                 listBtn.setImageResource(R.drawable.list_pressed);
+                updateFragment(this.userProfile, 1);
                 break;
         }
     }

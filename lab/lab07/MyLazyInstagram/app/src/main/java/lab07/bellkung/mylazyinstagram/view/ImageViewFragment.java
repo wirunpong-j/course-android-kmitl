@@ -17,20 +17,22 @@ import lab07.bellkung.mylazyinstagram.model.UserProfile;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class GridFragment extends Fragment {
+public class ImageViewFragment extends Fragment {
 
     private UserProfile userProfile;
+    private int row;
 
-    public GridFragment() {
+    public ImageViewFragment() {
         // Required empty public constructor
     }
 
-    public static GridFragment newInstance(UserProfile userProfile) {
+    public static ImageViewFragment newInstance(UserProfile userProfile, int row) {
 
         Bundle args = new Bundle();
         args.putParcelable("userProfile", userProfile);
+        args.putInt("row", row);
 
-        GridFragment fragment = new GridFragment();
+        ImageViewFragment fragment = new ImageViewFragment();
         fragment.setArguments(args);
         return fragment;
     }
@@ -39,12 +41,13 @@ public class GridFragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         this.userProfile = getArguments().getParcelable("userProfile");
+        this.row = getArguments().getInt("row");
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_grid, container, false);
+        View view = inflater.inflate(R.layout.fragment_image_view, container, false);
 
         if (this.userProfile != null) {
             initialView(view);
@@ -55,9 +58,12 @@ public class GridFragment extends Fragment {
 
     private void initialView(View view) {
         RecyclerView list = view.findViewById(R.id.list);
-        list.setLayoutManager(new GridLayoutManager(view.getContext(), 3));
+        list.setLayoutManager(new GridLayoutManager(view.getContext(), this.row));
         PostAdapter adapter = new PostAdapter(getActivity());
         adapter.setData(this.userProfile.getPosts());
+        adapter.setRow(this.row);
+        adapter.setUsername(this.userProfile.getUser());
+        adapter.setUserImageProfile(this.userProfile.getUrlProfile());
         list.setAdapter(adapter);
     }
 
