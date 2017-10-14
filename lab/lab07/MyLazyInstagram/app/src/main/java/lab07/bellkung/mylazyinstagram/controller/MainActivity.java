@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.ImageButton;
 import android.widget.Spinner;
 
 import com.wang.avi.AVLoadingIndicatorView;
@@ -135,5 +136,21 @@ public class MainActivity extends AppCompatActivity {
     public void onFollowBtnPressed(View view) {
         this.userProfile.setFollow(!this.userProfile.isFollow());
         sendPost(this.userProfile.getUser(), this.userProfile.isFollow());
+    }
+
+    public void onViewImagePressed(View view) {
+        ImageButton gridBtn = findViewById(R.id.gridBtn);
+        ImageButton listBtn = findViewById(R.id.listBtn);
+        switch (view.getId()) {
+            case R.id.gridBtn:
+                gridBtn.setImageResource(R.drawable.grid_pressed);
+                listBtn.setImageResource(R.drawable.list);
+                break;
+
+            case R.id.listBtn:
+                gridBtn.setImageResource(R.drawable.grid);
+                listBtn.setImageResource(R.drawable.list_pressed);
+                break;
+        }
     }
 }
