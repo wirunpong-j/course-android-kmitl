@@ -12,7 +12,6 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
 import android.widget.Spinner;
 
-import com.wang.avi.AVLoadingIndicatorView;
 
 import lab07.bellkung.mylazyinstagram.R;
 import lab07.bellkung.mylazyinstagram.api.LazyInstagramAPI;
@@ -43,13 +42,12 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void getUserProfile(String name){
-        this.loadingView.setVisibility(View.VISIBLE);
+        // start activity indicator
+        showLoadingView();
 
         Retrofit retrofit = getClient();
 
         LazyInstagramAPI lazyInstagramAPI = retrofit.create(LazyInstagramAPI.class);
-
-        // start activity indicator
         Call<UserProfile> call = lazyInstagramAPI.getProfile(name);
         call.enqueue(new Callback<UserProfile>() {
             @Override
@@ -58,7 +56,7 @@ public class MainActivity extends AppCompatActivity {
                 if (response.isSuccessful()){
                     userProfile = response.body();
                     updateFragment(userProfile, 3);
-                    loadingView.setVisibility(View.INVISIBLE);
+                    hideLoadingView();
                 }
             }
 
@@ -68,6 +66,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void sendPost(String name, boolean isFollow) {
+        showLoadingView();
         Retrofit retrofit = getClient();
 
         LazyInstagramAPI lazyInstagramAPI = retrofit.create(LazyInstagramAPI.class);
@@ -78,6 +77,7 @@ public class MainActivity extends AppCompatActivity {
                 if (response.isSuccessful()){
                     Log.v("Status : ", response.body().getMessage());
                     updateFragment(userProfile, 3);
+                    hideLoadingView();
                 }
             }
 
@@ -159,5 +159,13 @@ public class MainActivity extends AppCompatActivity {
                 updateFragment(this.userProfile, 1);
                 break;
         }
+    }
+
+    private void showLoadingView() {
+        this.loadingView.setVisibility(View.VISIBLE);
+    }
+
+    private void hideLoadingView() {
+        this.loadingView.setVisibility(View.INVISIBLE);
     }
 }
