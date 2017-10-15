@@ -62,6 +62,9 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.Holder> {
             holder.likedTextView.setText(String.valueOf(posts.getLike()) + " others");
             holder.userPostsTextView.setText(this.username);
             holder.postsCommentTextView.setText("View all " + String.valueOf(posts.getComment()) + " comments");
+        } else {
+            holder.likedTextView.setText(String.valueOf(posts.getLike()));
+            holder.postsCommentTextView.setText(String.valueOf(posts.getComment()));
         }
     }
 
