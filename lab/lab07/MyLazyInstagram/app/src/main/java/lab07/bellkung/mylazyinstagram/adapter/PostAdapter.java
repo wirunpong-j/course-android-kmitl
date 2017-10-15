@@ -2,8 +2,10 @@ package lab07.bellkung.mylazyinstagram.adapter;
 
 import android.app.Activity;
 import android.graphics.Color;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -17,7 +19,6 @@ import java.util.List;
 
 import lab07.bellkung.mylazyinstagram.R;
 import lab07.bellkung.mylazyinstagram.model.PostsModel;
-import lab07.bellkung.mylazyinstagram.model.UserProfile;
 
 /**
  * Created by BellKunG on 13/10/2017 AD.

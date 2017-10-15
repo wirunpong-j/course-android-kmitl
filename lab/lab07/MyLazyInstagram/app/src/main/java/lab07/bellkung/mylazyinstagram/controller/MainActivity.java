@@ -28,7 +28,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class MainActivity extends AppCompatActivity {
 
     private UserProfile userProfile;
-    private ConstraintLayout loadingView;
+    private ConstraintLayout rootView, loadingView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,6 +37,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         this.loadingView = findViewById(R.id.loadingView);
+        this.rootView = findViewById(R.id.rootView);
 
         initialUserSpinner();
     }
@@ -65,7 +66,7 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    private void sendPost(String name, boolean isFollow) {
+    private void sendPosts(String name, boolean isFollow) {
         showLoadingView();
         Retrofit retrofit = getClient();
 
@@ -140,7 +141,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void onFollowBtnPressed(View view) {
         this.userProfile.setFollow(!this.userProfile.isFollow());
-        sendPost(this.userProfile.getUser(), this.userProfile.isFollow());
+        sendPosts(this.userProfile.getUser(), this.userProfile.isFollow());
     }
 
     public void onViewImagePressed(View view) {
@@ -163,9 +164,12 @@ public class MainActivity extends AppCompatActivity {
 
     private void showLoadingView() {
         this.loadingView.setVisibility(View.VISIBLE);
+        this.rootView.setClickable(false);
+
     }
 
     private void hideLoadingView() {
         this.loadingView.setVisibility(View.INVISIBLE);
+        this.rootView.setClickable(true);
     }
 }

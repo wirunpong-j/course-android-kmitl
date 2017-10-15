@@ -81,8 +81,13 @@ public class ProfileFragment extends Fragment {
         Button followBtn = view.findViewById(R.id.followBtn);
         if (this.userProfile.isFollow()) {
             followBtn.setText("Followed");
+            followBtn.setTextColor(Color.BLACK);
+            followBtn.setBackgroundResource(R.drawable.followed_button);
+
         } else {
             followBtn.setText("Follow");
+            followBtn.setTextColor(Color.WHITE);
+            followBtn.setBackgroundResource(R.drawable.follow_button);
         }
 
     }
