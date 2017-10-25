@@ -71,9 +71,7 @@ public class UserInfoListActivity extends AppCompatActivity {
 
     @OnClick(R.id.clearListBtn)
     public void clearListBtnPressed() {
-        UserInfoList suggestSearchList = (UserInfoList) preference.read(UserInfoListActivity.EXTTRA_LIST, UserInfoList.class);
-        suggestSearchList.clearList();
-        preference.save(UserInfoListActivity.EXTTRA_LIST, suggestSearchList);
+        preference.save(UserInfoListActivity.EXTTRA_LIST, null);
         displaySuggestsList(new ArrayList<UserInfo>());
     }
 

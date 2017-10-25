@@ -33,8 +33,8 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this, this);
-        preference = new CommonSharePreference(this);
-        userInfoList = (UserInfoList) preference.read(UserInfoListActivity.EXTTRA_LIST, UserInfoList.class);
+        this.preference = new CommonSharePreference(this);
+        this.userInfoList = (UserInfoList) this.preference.read(UserInfoListActivity.EXTTRA_LIST, UserInfoList.class);
 
     }
 
@@ -48,8 +48,8 @@ public class MainActivity extends AppCompatActivity {
 
     @OnClick(R.id.buttonAdded)
     public void added() {
-        String name = editTExtName.getText().toString();
-        String age = editTextAge.getText().toString();
+        String name = this.editTExtName.getText().toString();
+        String age = this.editTextAge.getText().toString();
 
         if (name.isEmpty() || age.isEmpty()) {
             validate();
@@ -65,19 +65,21 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void setUserInfo(String name, String age) {
+        this.userInfoList = (UserInfoList) this.preference.read(UserInfoListActivity.EXTTRA_LIST, UserInfoList.class);
+
         UserInfo userInfo = new UserInfo();
         userInfo.setName(name);
         userInfo.setAge(age);
 
-        if (userInfoList == null) {
-            userInfoList = new UserInfoList();
+        if (this.userInfoList == null) {
+            this.userInfoList = new UserInfoList();
             List<UserInfo> suggests = new ArrayList<>();
             suggests.add(userInfo);
-            userInfoList.setUserInfoList(suggests);
+            this.userInfoList.setUserInfoList(suggests);
         } else {
-            userInfoList.getUserInfoList().add(userInfo);
+            this.userInfoList.getUserInfoList().add(userInfo);
         }
-        preference.save(UserInfoListActivity.EXTTRA_LIST, userInfoList);
+        this.preference.save(UserInfoListActivity.EXTTRA_LIST, this.userInfoList);
     }
 
 }
