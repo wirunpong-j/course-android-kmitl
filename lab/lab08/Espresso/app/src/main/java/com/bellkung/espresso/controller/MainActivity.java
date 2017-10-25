@@ -64,12 +64,6 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    @OnClick(R.id.clearListBtn)
-    public void clearListBtnPressed() {
-        userInfoList.clearList();
-        preference.save(UserInfoListActivity.EXTTRA_LIST, userInfoList);
-    }
-
     private void setUserInfo(String name, String age) {
         UserInfo userInfo = new UserInfo();
         userInfo.setName(name);

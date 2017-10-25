@@ -18,6 +18,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 /**
  * Created by BellKunG on 22/10/2017 AD.
@@ -67,5 +68,15 @@ public class UserInfoListActivity extends AppCompatActivity {
         }
 
     }
+
+    @OnClick(R.id.clearListBtn)
+    public void clearListBtnPressed() {
+        UserInfoList suggestSearchList = (UserInfoList) preference.read(UserInfoListActivity.EXTTRA_LIST, UserInfoList.class);
+        suggestSearchList.clearList();
+        preference.save(UserInfoListActivity.EXTTRA_LIST, suggestSearchList);
+        displaySuggestsList(new ArrayList<UserInfo>());
+    }
+
+
 
 }
