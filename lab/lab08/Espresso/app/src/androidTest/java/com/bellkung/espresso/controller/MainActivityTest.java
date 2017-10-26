@@ -10,6 +10,7 @@ import android.test.suitebuilder.annotation.LargeTest;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewParent;
+import android.widget.TextView;
 
 import com.bellkung.espresso.R;
 
@@ -23,6 +24,7 @@ import org.junit.runner.RunWith;
 
 import static android.support.test.espresso.Espresso.closeSoftKeyboard;
 import static android.support.test.espresso.Espresso.onView;
+import static android.support.test.espresso.action.ViewActions.clearText;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.action.ViewActions.typeText;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
@@ -35,6 +37,9 @@ import static org.hamcrest.Matchers.allOf;
 @LargeTest
 @RunWith(AndroidJUnit4.class)
 public class MainActivityTest {
+
+    private final String[] allName = {"Ying", "Ladarat", "Somkait", "Prayoch", "Prayoch"};
+    private final int[] allAge = {20, 20, 80, 60, 50};
 
     @Rule
     public ActivityTestRule<MainActivity> mActivityTestRule = new ActivityTestRule<>(MainActivity.class);
@@ -84,12 +89,7 @@ public class MainActivityTest {
     public void unitTest5() {
         //click ADDED fill Age with 20 and fill Name field with Ying,
         //and click go to list. Expected "Ying Age 20" at first.
-        onView(withId(R.id.editTExtName)).perform(typeText("Ying"));
-        onView(withId(R.id.editTextAge)).perform(typeText("20"));
-        closeSoftKeyboard();
-        SystemClock.sleep(500);
-        onView(withId(R.id.buttonAdded)).perform(click());
-        SystemClock.sleep(500);
+        unitTest5to9(0);
         onView(withId(R.id.buttonGotoList)).perform(click());
         onView(withRecyclerView(R.id.list).atPositionOnView(0, R.id.textName))
                 .check(matches(withText("Ying")));
@@ -102,12 +102,7 @@ public class MainActivityTest {
     public void unitTest6() {
         //click ADDED fill Age with 20 and fill Name field with Ladarat,
         //and click go to list. Expected "Ladarat Age 20" at second.
-        onView(withId(R.id.editTExtName)).perform(typeText("Ladarat"));
-        onView(withId(R.id.editTextAge)).perform(typeText("20"));
-        closeSoftKeyboard();
-        SystemClock.sleep(500);
-        onView(withId(R.id.buttonAdded)).perform(click());
-        SystemClock.sleep(500);
+        unitTest5to9(1);
         onView(withId(R.id.buttonGotoList)).perform(click());
         onView(withRecyclerView(R.id.list).atPositionOnView(1, R.id.textName))
                 .check(matches(withText("Ladarat")));
@@ -120,12 +115,7 @@ public class MainActivityTest {
     public void unitTest7() {
         //click ADDED fill Age with 80 and fill Name field with Somkait,
         //and click go to list. Expected "Somkait Age 80" third.
-        onView(withId(R.id.editTExtName)).perform(typeText("Somkait"));
-        onView(withId(R.id.editTextAge)).perform(typeText("80"));
-        closeSoftKeyboard();
-        SystemClock.sleep(500);
-        onView(withId(R.id.buttonAdded)).perform(click());
-        SystemClock.sleep(500);
+        unitTest5to9(2);
         onView(withId(R.id.buttonGotoList)).perform(click());
         onView(withRecyclerView(R.id.list).atPositionOnView(2, R.id.textName))
                 .check(matches(withText("Somkait")));
@@ -138,12 +128,7 @@ public class MainActivityTest {
     public void unitTest8() {
         //click ADDED fill Age with 60 and fill Name field with Prayoch,
         //and click go to list. Expected "Prayoch Age 60" fourth.
-        onView(withId(R.id.editTExtName)).perform(typeText("Prayoch"));
-        onView(withId(R.id.editTextAge)).perform(typeText("60"));
-        closeSoftKeyboard();
-        SystemClock.sleep(500);
-        onView(withId(R.id.buttonAdded)).perform(click());
-        SystemClock.sleep(500);
+        unitTest5to9(3);
         onView(withId(R.id.buttonGotoList)).perform(click());
         onView(withRecyclerView(R.id.list).atPositionOnView(3, R.id.textName))
                 .check(matches(withText("Prayoch")));
@@ -156,12 +141,7 @@ public class MainActivityTest {
     public void unitTest9() {
         //click ADDED fill Age with 50 and fill Name field with Prayoch,
         //and click go to list. Expected "Prayoch Age 50" fifth.
-        onView(withId(R.id.editTExtName)).perform(typeText("Prayoch"));
-        onView(withId(R.id.editTextAge)).perform(typeText("50"));
-        closeSoftKeyboard();
-        SystemClock.sleep(500);
-        onView(withId(R.id.buttonAdded)).perform(click());
-        SystemClock.sleep(500);
+        unitTest5to9(4);
         onView(withId(R.id.buttonGotoList)).perform(click());
         onView(withRecyclerView(R.id.list).atPositionOnView(4, R.id.textName))
                 .check(matches(withText("Prayoch")));
@@ -169,6 +149,20 @@ public class MainActivityTest {
                 .check(matches(withText("50")));
 
     }
+
+    private void unitTest5to9(int childPos) {
+        for (int i = 0; i <= childPos; i++) {
+            onView(withId(R.id.editTExtName)).perform(clearText());
+            onView(withId(R.id.editTExtName)).perform(typeText(allName[i]));
+            onView(withId(R.id.editTextAge)).perform(clearText());
+            onView(withId(R.id.editTextAge)).perform(typeText(String.valueOf(allAge[i])));
+            closeSoftKeyboard();
+            SystemClock.sleep(500);
+            onView(withId(R.id.buttonAdded)).perform(click());
+            SystemClock.sleep(500);
+        }
+    }
+
 
     private static RecyclerViewMatcher withRecyclerView(final int recyclerViewId) {
         return new RecyclerViewMatcher(recyclerViewId);

@@ -34,8 +34,10 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this, this);
         this.preference = new CommonSharePreference(this);
+        if (this.preference.read(UserInfoListActivity.EXTTRA_LIST, UserInfoList.class) != null) {
+            this.preference.save(UserInfoListActivity.EXTTRA_LIST, null);
+        }
         this.userInfoList = (UserInfoList) this.preference.read(UserInfoListActivity.EXTTRA_LIST, UserInfoList.class);
-
     }
 
     private void validate() {

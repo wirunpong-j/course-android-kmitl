@@ -34,4 +34,5 @@ public class CommonSharePreference {
         }
         return result;
     }
+
 }
