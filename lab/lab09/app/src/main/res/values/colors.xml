@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--<color name="colorPrimary">#3F51B5</color>-->
+    <!--<color name="colorPrimaryDark">#303F9F</color>-->
+    <!--<color name="colorAccent">#FF4081</color>-->
+
+    <!--Custom Dark-->
+    <color name="colorPrimary">#182128</color>
+    <color name="colorPrimaryDark">#263238</color>
+    <color name="colorAccent">#ff252e39</color>
+    <color name="colorPrimary_light">#fafafa</color>
+    <color name="colorAQUAMARINE">#7FFFD4</color>
+    <color name="colorROYALBLUE">#4169E1</color>
+    <color name="colorLIGHTCYAN">#E0FFFF</color>
+
+    <!--action unpressed button-->
+    <color name="colorGHOSTWHITE">#F8F8FF</color>
+    <color name="colorFUCHSIA">#FF00FF</color>
+
+    <!--action pressed button-->
+    <color name="colorCRIMSON">#DC143C</color>
+    <color name="colorLIMEGREEN">#32CD32</color>
+    <color name="colorWHITESMOKE">#F5F5F5</color>
+
+    <!--balance text color-->
+    <color name="colorGreen">#00FF00</color>
+    <color name="colorRed">#FF0000</color>
+    <color name="colorYellow">#FFFF00</color>
+
+</resources>

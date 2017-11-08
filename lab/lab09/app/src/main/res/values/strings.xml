@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">moneyflow</string>
+
+    <!--manage list dialog fragment-->
+    <string name="list_type_text">ประเภท</string>
+    <string name="list_text">รายการ</string>
+    <string name="amount_text">จำนวนเงิน</string>
+    <string name="income_text">รายรับ</string>
+    <string name="expense_text">รายจ่าย</string>
+    <string name="save_text">บันทึก</string>
+    <string name="cancel_text">ยกเลิก</string>
+    <string name="add_list_text">เพิ่ม</string>
+</resources>
